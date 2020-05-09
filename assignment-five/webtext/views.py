@@ -19,7 +19,6 @@ def login(request):
     return HttpResponseRedirect(reverse('webtext:userHome', args=(user.id,)))
 
 
-# user home view
 class UserHomeView(generic.DetailView):
     model = User
     template_name = "webtext/userHome.html"
@@ -31,4 +30,8 @@ def new_message(request, user_id):
     # message.receiver = User.objects.get_or_create(username=request.POST['receiver'])
     message.message_text = request.POST['message']
 
-    return HttpResponseRedirect(reverse('webtext:userHome', args=(message.sender.id,)))
+    return HttpResponseRedirect(reverse('webtext:success', args=(message.sender.id,)))
+
+class SuccessView(generic.DetailView):
+    model = User
+    template_name = "webtext/success.html"
