@@ -2,9 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>My E-Penpal</title>
 </head>
 <body>
-
+    <h1>Welcome to My E-PenPal!</h1>
+    <form name="login" action="{% url 'webtext:login' %}" method="post">
+        {% csrf_token %}
+        Username: <input type="text" name="username" value=""/><br/>
+        <p>*Note: Usernames must be between 3 and 30 characters long.</p>
+        <input type="submit" value="login"/>
+    </form>
 </body>
 </html>

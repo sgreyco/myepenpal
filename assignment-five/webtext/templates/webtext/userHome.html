@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <style>
+        h3 {
+            align-items: center;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="row">
+        <div class="col">
+            <h3>Contacts</h3>
+            <p>No contacts. Implement me (next project)!</p>
+        </div>
+
+        <div class="col">
+            <h3>Received messages</h3>
+            <p>No messages. Implement me (next project)!</p>
+        </div>
+
+        <div class="col">
+            <h3>Send Message</h3>
+            <form name="new_message" action="{% url 'webtext:new_message' user.id %}" method="post">
+                {% csrf_token %}
+                To (username): <input type="text" name="receiver"><br/>
+                Message: <br/><textarea name="message"></textarea><br/>
+                <input type="submit" value="send">
+            </form>
+        </div>
+
+    </div>
+</body>
+</html>
