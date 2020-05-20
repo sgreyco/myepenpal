@@ -14,9 +14,11 @@ class IndexView(generic.ListView):
 
 def login(request):
     user, created = User.objects.get_or_create(
-        username=request.POST['username'])
+        username=request.POST['username'].lower())
     user_id = user.id
     return HttpResponseRedirect(reverse('webtext:userHome', args=(user.id,)))
+
+
 
 
 class UserHomeView(generic.DetailView):
@@ -26,11 +28,14 @@ class UserHomeView(generic.DetailView):
 
 def new_message(request, user_id):
     message = Message()
-    message.sender = User.objects.get(id=user_id)
-    # message.receiver = User.objects.get_or_create(username=request.POST['receiver'])
+    message.user = User.objects.get(id=user_id)
+    recipient = User.objects.get_or_create(username=request.POST['receiver'].lower())
+    message.recipient = recipient[0]
     message.message_text = request.POST['message']
+    message.save()
+    return HttpResponseRedirect(reverse('webtext:userHome', args=(message.user.id,)))
 
-    return HttpResponseRedirect(reverse('webtext:success', args=(message.sender.id,)))
+
 
 class SuccessView(generic.DetailView):
     model = User

@@ -9,7 +9,7 @@
     <form name="login" action="{% url 'webtext:login' %}" method="post">
         {% csrf_token %}
         Username: <input type="text" name="username" value=""/><br/>
-        <p>*Note: Usernames must be between 3 and 30 characters long.</p>
+        <p>*Note: Usernames must be between 3 and 30 characters long.They are not case sensitive.</p>
         <input type="submit" value="login"/>
     </form>
 </body>

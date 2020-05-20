@@ -3,21 +3,22 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-    h1, h3, form {
+    h1, .logout {
+        text-align: right;
+    }
+    h3 {
         text-align: center;
 
     }
-* {
-  box-sizing: border-box;
-}
+    * {
+      box-sizing: border-box;
+    }
 
 /* Create two equal columns that floats next to each other */
 .column {
   float: left;
   width: 50%;
   padding: 10px;
-  height: 300px; /* Should be removed. Only for demonstration */
-}
 
 /* Clear floats after the columns */
 .row:after {
@@ -29,18 +30,35 @@
 </head>
 <body>
     <h1>Welcome, {{ user.username }}</h1>
+    <form class='logout' name="logout" action="{% url 'webtext:index' %}">
+        <a href="{% url 'webtext:index' %}"><input type="button" name="logout" value="Sign Out"></a>
+    </form><br/>
+
     <div class="row">
+<!--
         <div class="column">
-            <h3>Received messages</h3>
-            <p>No messages. Implement me (next project)!</p>
+            <h3>Messages Sent To:</h3>
+            <ul>
+                {% for message in user.sender.all %}
+                <li>{{message.recipient.username }} - {{ message.message_text }}</li>
+                {% endfor %}
+            </ul>
+
+        </div> -->
+        <div class="column">
+            <h3>Inbox</h3>
+            {% for message in user.recipient.all %}
+            <b>{{ message.user.username }}</b>          {{ message.message_text }}<br/><br/>
+            {% endfor %}
+
         </div>
 
-        <div class="col">
-            <h3>Send Message</h3>
-            <form name="new_message" action="{% url 'webtext:new_message' user.id %}" method="post">
+        <div class="column">
+            <h3>Compose</h3>
+            <form name="new_message" action="{% url 'webtext:new_message' user.id %}" method="POST">
                 {% csrf_token %}
                 To (username): <input type="text" name="receiver"><br/><br/>
-                <br/><textarea name="message" rows="20" cols="40"></textarea><br/>
+                <br/><textarea name="message" rows="10" cols="20"></textarea><br/>
                 <input type="submit" value="send new message">
             </form>
         </div>
